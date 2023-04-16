@@ -67,6 +67,8 @@ function showDeleteEdit(details){
         document.getElementById('email').value=details.email;
         document.getElementById('phone').value=details.phone;
         document.getElementById('date').value=details.date;
+        let element="https://crudcrud.com/api/841a22e3a66344a980f6e3d1fe2073ca/appointmentdata/"+details._id
+        axios.put(element,details)
         localStorage.removeItem(details.name);
         user.removeChild(userList);
     }

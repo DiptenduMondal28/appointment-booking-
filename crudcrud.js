@@ -8,11 +8,6 @@ function myFunc(event){
     };
     let myDetails=JSON.stringify(details);
     localStorage.setItem(details.name,myDetails);   
-    document.getElementById('name').value=null;
-    document.getElementById('email').value=null;
-    document.getElementById('phone').value=null;
-    document.getElementById('date').value=null;
-    showDeleteEdit(details);
     axios.post("https://crudcrud.com/api/841a22e3a66344a980f6e3d1fe2073ca/appointmentdata",details)
         .then((response)=>{
             console.log(response)
@@ -21,26 +16,34 @@ function myFunc(event){
         })
 
 }
-let user=document.getElementById('users');
-    //creating user list
-    let userList=document.createElement('li');
-    // userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
-    const keys = Object.keys(localStorage)
-    for (let key of keys) {
-        userList.textContent="Name:"+key.name+" Email:"+key.email+"  phone_Number:"+key.phone+"   date"+key.date;
-        console.log(`${key}: ${localStorage.getItem(key)}`)
+
+window.addEventListener("DOMContentLoaded",()=>{
+    axios.get("https://crudcrud.com/api/841a22e3a66344a980f6e3d1fe2073ca/appointmentdata",).then((response)=>{
+        console.log(response);
+        for(var i=0;i<response.data.length;i++){
+            showDeleteEdit(response.data[i])
+        }
+    }).catch((err)=>{
+        console.log(err)
+    })
+
+    const localStorageObj=localStorage;
+    const localStorageKeys=Object.keys(localStorageObj);
+
+    for(var i=0;i<localStorageKeys.length;i++){
+        const key=localStorageKeys[i];
+        const userDetailsString=localStorageObj[key];
+        const userDetailsObj=JSON.parse(userDetailsString);
+
     }
+})
 
 function showDeleteEdit(details){
-    // let user=document.getElementById('users');
-    // //creating user list
-    // let userList=document.createElement('li');
-    // // userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
-    // const keys = Object.keys(localStorage)
-    // for (let key of keys) {
-    //     userList.textContent="Name:"+key.name+" Email:"+key.email+"  phone_Number:"+key.phone+"   date"+key.date;
-    //     console.log(`${key}: ${localStorage.getItem(key)}`)
-    // }
+    let user=document.getElementById('users');
+    //creating user list
+    let userList=document.createElement('li');
+    userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
+
     //add delete button
     let deleteButton=document.createElement('input');
     deleteButton.type='button';
@@ -67,12 +70,3 @@ function showDeleteEdit(details){
     userList.appendChild(editButton);
     user.appendChild(userList);
 }
-//let user=document.getElementById('users');
-//     //creating user list
-// let userList=document.createElement('li');
-    // userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
-// const keys = Object.keys(localStorage)
-// for (let key of keys) {
-//     console.log(`${key}: ${localStorage.getItem(key)}`)
-//     userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
-//}

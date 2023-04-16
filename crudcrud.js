@@ -14,6 +14,10 @@ function myFunc(event){
         }).catch((err)=>{
             console.log(err)
         })
+        document.getElementById('name').value=null;
+        document.getElementById('email').value=null;
+        document.getElementById('phone').value=null;
+        document.getElementById('date').value=null;
 
 }
 
@@ -42,13 +46,15 @@ function showDeleteEdit(details){
     let user=document.getElementById('users');
     //creating user list
     let userList=document.createElement('li');
-    userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date;
+    userList.textContent="Name:"+details.name+" Email:"+details.email+"  phone_Number:"+details.phone+"   date"+details.date+" id:"+details._id;
 
     //add delete button
     let deleteButton=document.createElement('input');
     deleteButton.type='button';
     deleteButton.value='delete';
     deleteButton.onclick=()=>{
+        let element="https://crudcrud.com/api/841a22e3a66344a980f6e3d1fe2073ca/appointmentdata/"+details._id
+        axios.delete(element)
         localStorage.removeItem(details.name);
         user.removeChild(userList);
     }
